@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fica a Dica</title>
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -13,7 +15,6 @@
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      
     }
 
     h1 {
@@ -50,42 +51,34 @@
   </style>
 </head>
 <body>
-  <h1>Escolha sua carta</h1>
 
-  <div class="grid" id="cards"></div>
+<h1>Escolha sua carta</h1>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+<div class="grid" id="cards"></div>
 
-    const cardsContainer = document.getElementById("cards");
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-    for (let i = 1; i <= 6; i++) {
-      const card = document.createElement("div");
-      card.className = "card";
+const container = document.getElementById("cards");
 
-      const img = document.createElement("img");
-      img.src = `cartas/${i}.png`;
-      img.alt = `Carta ${i}`;
+for (let i = 1; i <= 6; i++) {
+  const card = document.createElement("div");
+  card.className = "card";
 
-      card.appendChild(img);
+  const img = document.createElement("img");
+  img.src = `cartas/${i}.png`;
 
-      card.addEventListener("click", () => {
-  alert("clicou");   // teste visual
+  card.appendChild(img);
 
-  Telegram.WebApp.sendData(String(i - 1));
-  Telegram.WebApp.close();
-});
+  card.onclick = () => {
+    tg.sendData(String(i - 1));
+    tg.close();
+  };
 
-      cardsContainer.appendChild(card);
-    }
-  </script>
-
-  <script>
-alert("JS carregou");
+  container.appendChild(card);
+}
 </script>
-  
+
 </body>
 </html>
-
-

@@ -72,9 +72,14 @@ for (let i = 1; i <= 6; i++) {
   card.appendChild(img);
 
   card.onclick = () => {
-    tg.sendData(String(i - 1));
-    tg.close();
-  };
+  alert("enviando");  // teste
+
+  Telegram.WebApp.sendData(String(i - 1));
+
+  setTimeout(() => {
+    Telegram.WebApp.close();
+  }, 500);
+};
 
   container.appendChild(card);
 }
@@ -82,3 +87,4 @@ for (let i = 1; i <= 6; i++) {
 
 </body>
 </html>
+

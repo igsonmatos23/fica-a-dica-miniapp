@@ -1,80 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fica a Dica</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fica a Dica</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #111;
-  color: white;
-  text-align: center;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
 
-h2 {
-  margin-top: 15px;
-}
+    .card {
+      background: #1c1c1c;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 15px;
-}
+    .card:hover {
+      transform: scale(1.03);
+      border-color: #ffffff55;
+    }
 
-.card {
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.card:hover {
-  border: 2px solid orange;
-}
-
-.card img {
-  width: 100%;
-}
-</style>
+    .card img {
+      width: 100%;
+      display: block;
+    }
+  </style>
 </head>
-
 <body>
+  <h1>Escolha sua carta</h1>
 
-<h2>Escolha uma carta</h2>
+  <div class="grid" id="cards"></div>
 
-<div class="grid" id="cartas"></div>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-<script>
-const cartas = [
-"cartas/1.png",
-"cartas/2.png",
-"cartas/3.png",
-"cartas/4.png",
-"cartas/5.png",
-"cartas/6.png"
-];
+    const cardsContainer = document.getElementById("cards");
 
-const container = document.getElementById("cartas");
+    for (let i = 1; i <= 6; i++) {
+      const card = document.createElement("div");
+      card.className = "card";
 
-cartas.forEach((src, i) => {
-  const div = document.createElement("div");
-  div.className = "card";
+      const img = document.createElement("img");
+      img.src = `cartas/${i}.png`;
+      img.alt = `Carta ${i}`;
 
-  div.innerHTML = `<img src="${src}">`;
+      card.appendChild(img);
 
-  div.onclick = () => {
-    Telegram.WebApp.sendData(String(i));
-  };
+      card.addEventListener("click", () => {
+        tg.sendData(String(i - 1));
+        tg.close();
+      });
 
-  container.appendChild(div);
-});
-</script>
-
+      cardsContainer.appendChild(card);
+    }
+  </script>
 </body>
 </html>

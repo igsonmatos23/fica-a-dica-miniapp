@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fica a Dica</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #111;
+  color: white;
+  text-align: center;
+}
+
+h2 {
+  margin-top: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 15px;
+}
+
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.card:hover {
+  border: 2px solid orange;
+}
+
+.card img {
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Escolha uma carta</h2>
+
+<div class="grid" id="cartas"></div>
+
+<script>
+const cartas = [
+"cartas/1.png",
+"cartas/2.png",
+"cartas/3.png",
+"cartas/4.png",
+"cartas/5.png",
+"cartas/6.png"
+];
+
+const container = document.getElementById("cartas");
+
+cartas.forEach((src, i) => {
+  const div = document.createElement("div");
+  div.className = "card";
+
+  div.innerHTML = `<img src="${src}">`;
+
+  div.onclick = () => {
+    Telegram.WebApp.sendData(String(i));
+  };
+
+  container.appendChild(div);
+});
+</script>
+
+</body>
+</html>

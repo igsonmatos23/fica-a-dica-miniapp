@@ -70,12 +70,15 @@
       card.appendChild(img);
 
       card.addEventListener("click", () => {
-        tg.sendData(String(i - 1));
-        tg.close();
-      });
+  alert("clicou");   // teste visual
+
+  Telegram.WebApp.sendData(String(i - 1));
+  Telegram.WebApp.close();
+});
 
       cardsContainer.appendChild(card);
     }
   </script>
 </body>
 </html>
+

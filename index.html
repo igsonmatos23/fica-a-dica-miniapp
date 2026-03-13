@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fica a Dica</title>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -52,44 +51,36 @@
 </head>
 <body>
 
-<h1>Escolha sua carta</h1>
+  <h1>Escolha sua carta</h1>
+  <div class="grid" id="cards"></div>
 
-<div class="grid" id="cards"></div>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-<script>
-const tg = window.Telegram.WebApp;
-tg.expand();
+    const container = document.getElementById("cards");
 
-const container = document.getElementById("cards");
+    for (let i = 1; i <= 6; i++) {
+      const card = document.createElement("div");
+      card.className = "card";
 
-for (let i = 1; i <= 6; i++) {
-  const card = document.createElement("div");
-  card.className = "card";
+      const img = document.createElement("img");
+      img.src = `cartas/${i}.png`;
+      img.alt = `Carta ${i}`;
 
-  const img = document.createElement("img");
-  img.src = `cartas/${i}.png`;
+      card.appendChild(img);
 
-  card.appendChild(img);
+      card.onclick = () => {
+        tg.sendData(String(i - 1));
 
-  card.onclick = () => {
-  tg.sendData(String(i - 1));
+        setTimeout(() => {
+          tg.close();
+        }, 1200);
+      };
 
-  setTimeout(() => {
-    tg.close();
-  }, 1200);
-};
-
-  Telegram.WebApp.sendData(String(i - 1));
-
-  setTimeout(() => {
-    Telegram.WebApp.close();
-  }, 500);
-};
-
-  container.appendChild(card);
-}
-</script>
+      container.appendChild(card);
+    }
+  </script>
 
 </body>
 </html>
-

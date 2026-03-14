@@ -60,15 +60,15 @@ tg.expand();
 
 const container = document.getElementById("cards");
 
+const params = new URLSearchParams(window.location.search);
+const cartasParam = params.get("cartas");
+
 let cartas = [];
 
-// verifica se veio cartas da mesa
-const texto = tg.initDataUnsafe?.message?.text || "";
-
-if (texto.includes("mesa:")) {
-  cartas = texto.split("mesa:")[1].split(",").map(n => parseInt(n));
+if (cartasParam) {
+  cartas = cartasParam.split(",").map(n => parseInt(n));
 } else {
-  cartas = [1,2,3,4,5,6];
+  cartas = [1, 2, 3, 4, 5, 6];
 }
 
 cartas.forEach((num, i) => {
@@ -77,12 +77,13 @@ cartas.forEach((num, i) => {
 
   const img = document.createElement("img");
   img.src = `cartas/${num}.png`;
+  img.alt = `Carta ${num}`;
 
   card.appendChild(img);
 
   card.onclick = () => {
-    Telegram.WebApp.sendData(String(i));
-    Telegram.WebApp.close();
+    tg.sendData(String(i));
+    tg.close();
   };
 
   container.appendChild(card);

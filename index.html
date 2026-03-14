@@ -54,41 +54,39 @@
   <h1>Escolha sua carta</h1>
   <div class="grid" id="cards"></div>
 
-  <script>
-  const tg = window.Telegram.WebApp;
-  tg.ready();
-  tg.expand();
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-  const container = document.getElementById("cards");
+const container = document.getElementById("cards");
 
-  function escolherCarta(indice) {
-    tg.sendData(String(indice));
+let cartas = [];
 
-    document.body.innerHTML = "<h1 style='color:white; margin-top:40px;'>Enviando carta...</h1>";
+// verifica se veio cartas da mesa
+const texto = tg.initDataUnsafe?.message?.text || "";
 
-    setTimeout(() => {
-      tg.close();
-    }, 1500);
-  }
+if (texto.includes("mesa:")) {
+  cartas = texto.split("mesa:")[1].split(",").map(n => parseInt(n));
+} else {
+  cartas = [1,2,3,4,5,6];
+}
 
-  for (let i = 1; i <= 6; i++) {
-    const card = document.createElement("div");
-    card.className = "card";
+cartas.forEach((num, i) => {
+  const card = document.createElement("div");
+  card.className = "card";
 
-    const img = document.createElement("img");
-    img.src = `cartas/${i}.png`;
-    img.alt = `Carta ${i}`;
+  const img = document.createElement("img");
+  img.src = `cartas/${num}.png`;
 
-    card.appendChild(img);
+  card.appendChild(img);
 
-    card.addEventListener("click", () => escolherCarta(i - 1));
-    card.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      escolherCarta(i - 1);
-    });
+  card.onclick = () => {
+    Telegram.WebApp.sendData(String(i));
+    Telegram.WebApp.close();
+  };
 
-    container.appendChild(card);
-  }
+  container.appendChild(card);
+});
 </script>
 
 </body>
